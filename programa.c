@@ -34,7 +34,7 @@ void lee_arr(double *arr, int size)
 {
 	int i;
 	for(i = 0; i < size; i++)
-	{ scanf("%i", arr+i); }
+	{ scanf("%lf", arr+i); }
 }
 
 double** crea_mat_2d(int y, int x)
@@ -52,15 +52,37 @@ double** crea_mat_2d(int y, int x)
 	return mat;
 }
 
+void matriz_inversa(double *resultado, double *matriz, int xsize, int ysize)
+{
+	int j, k;
+	for(j = 0; j < ysize; j++)
+	{
+		for(k = 0; k < xsize; k++)
+		{
+			*(resultado + k + j*xsize) = 1 / *(matriz + xsize - 1 - k + j*xsize);
+		}
+	}
+}
+
+void avg_matrix(double *resultado, double *matrix, int xsize, int ysize, int expertos)
+{
+	int i, j, k;
+	for(i = 0; i < ysize; i++)
+	{
+		for(j = 0; j < xsize; j++)
+		{
+		}
+	}
+}
 
 int main()
 {
 	int cant_expertos, i, fac_comp, fuzzy_number, tmp, j, k;
 	char *palabras;
 	//factores de comparacion max 9
-	//numero de expertos infinito
+	//numero de expertos infinito	
 	//generar matrix promedio de cada columna
-	double **eval_mat;
+	double **eval_mat, *avg_matrix;
 
 
 	printf("cantidad de expertos? ");
@@ -70,6 +92,7 @@ int main()
 	
 	palabras = (char*)malloc( fac_comp*15 * sizeof(char) );
 	eval_mat = crea_mat_2d(fac_comp*fac_comp, cant_expertos * 3);
+	avg_matrix = crea_mat_2s(fac_comp, fac_comp*FUZZY_NUMBER);
 
 	for (i = 0; i < fac_comp * 15; i++)
 	{ 
@@ -93,17 +116,18 @@ int main()
 		printf("%c", *(palabras + i)) ; 
 	}
 	*/
-
+//24
 	tmp = (fac_comp * (fac_comp - 1)) / 2;
-	for(j = 0; j < tmp - 1; j++)
+	for(j = 0; j < fac_comp; j++)
 	{
-		for(k = j + 1; k < tmp; k++)
+		for(k = j + 1; k < fac_comp; k++)
 		{
 			printf("\nintroduce la matriz de %s vs %s\n", palabras + 15*j, palabras + 15*k);
 			lee_arr( *(eval_mat + fac_comp * j + k), cant_expertos*3 );
+			matriz_inversa( *(eval_mat + fac_comp*k + j), *(eval_mat + fac_comp*j +k), FUZZY_NUMBER, cant_expertos);
 		}
 	}
-
+// matriz_inversa
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
 
 	return 0;
