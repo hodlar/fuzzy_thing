@@ -67,11 +67,16 @@ void matriz_inversa(double *resultado, double *matriz, int xsize, int ysize)
 void avg_matrix(double *resultado, double *matrix, int xsize, int ysize, int expertos)
 {
 	int i, j, k;
-	for(i = 0; i < ysize; i++)
+	double tmp;
+	double expertos_doub;
+	for(j = 0; j < xsize; j++)
 	{
-		for(j = 0; j < xsize; j++)
+		tmp = 0;
+		for(k = 0; k < expertos; k++)
 		{
+			tmp += *(matrix + 3*k);
 		}
+		*(resultado + j) = tmp/expertos;
 	}
 }
 
@@ -127,6 +132,7 @@ int main()
 			matriz_inversa( *(eval_mat + fac_comp*k + j), *(eval_mat + fac_comp*j +k), FUZZY_NUMBER, cant_expertos);
 		}
 	}
+
 // matriz_inversa
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
 
