@@ -64,17 +64,17 @@ void matriz_inversa(double *resultado, double *matriz, int xsize, int ysize)
 	}
 }
 
-void avg_matrix(double *resultado, double *matrix, int xsize, int ysize, int expertos)
+void calculate_avg_matrix(double *resultado, double *matrix, int expertos)
 {
 	int i, j, k;
 	double tmp;
 	double expertos_doub;
-	for(j = 0; j < xsize; j++)
+	for(j = 0; j < FUZZY_NUMBER; j++)
 	{
 		tmp = 0;
 		for(k = 0; k < expertos; k++)
 		{
-			tmp += *(matrix + 3*k);
+			tmp += *(matrix + FUZZY_NUMBER*k + j);
 		}
 		*(resultado + j) = tmp/expertos;
 	}
@@ -87,7 +87,7 @@ int main()
 	//factores de comparacion max 9
 	//numero de expertos infinito	
 	//generar matrix promedio de cada columna
-	double **eval_mat, *avg_matrix;
+	double **eval_mat, **avg_matrix;
 
 
 	printf("cantidad de expertos? ");
@@ -97,7 +97,7 @@ int main()
 	
 	palabras = (char*)malloc( fac_comp*15 * sizeof(char) );
 	eval_mat = crea_mat_2d(fac_comp*fac_comp, cant_expertos * 3);
-	avg_matrix = crea_mat_2s(fac_comp, fac_comp*FUZZY_NUMBER);
+	avg_matrix = crea_mat_2d(fac_comp, fac_comp*FUZZY_NUMBER);
 
 	for (i = 0; i < fac_comp * 15; i++)
 	{ 
@@ -133,8 +133,15 @@ int main()
 		}
 	}
 
+	for(j = 0; j < fac_comp*fac_comp; j++)
+	{
+		calculate_avg_matrix(*(avg_matrix)+3*j, *(eval_mat+j), cant_expertos);
+	}
+
 // matriz_inversa
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
+	printf("\n");
+	despliega_mat_2d(avg_matrix, fac_comp, fac_comp*3);
 
 	return 0;
 }
