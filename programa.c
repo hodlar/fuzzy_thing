@@ -44,7 +44,7 @@ double** crea_mat_2d(int y, int x)
 	
 	mat = (double**)malloc(y * sizeof(double*));
 
-	for(i = 0; i < 3*x; i++)
+	for(i = 0; i < y; i++)
 	{ 
 		*(mat + i) = (double*)malloc(x * sizeof(double)); 
 	}
@@ -75,6 +75,7 @@ void calculate_avg_matrix(double *resultado, double *matrix, int expertos)
 		for(k = 0; k < expertos; k++)
 		{
 			tmp += *(matrix + FUZZY_NUMBER*k + j);
+			printf("valor=%lf dir=%x\n", *(matrix + FUZZY_NUMBER*k + j), (matrix + FUZZY_NUMBER*k + j));
 		}
 		*(resultado + j) = tmp/expertos;
 	}
@@ -132,12 +133,12 @@ int main()
 			matriz_inversa( *(eval_mat + fac_comp*k + j), *(eval_mat + fac_comp*j +k), FUZZY_NUMBER, cant_expertos);
 		}
 	}
-
-//	for(j = 0; j < fac_comp*fac_comp; j++)
-//	{
-//		calculate_avg_matrix(*(avg_matrix)+3*j, *(eval_mat+j), cant_expertos);
-//	}
-
+/*
+	for(j = 0; j < fac_comp*fac_comp; j++)
+	{
+		calculate_avg_matrix(*(avg_matrix)+3*j, *(eval_mat+j), cant_expertos);
+	}
+*/
 // matriz_inversa
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
 	printf("\n");
