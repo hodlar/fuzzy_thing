@@ -133,15 +133,15 @@ int main()
 		}
 	}
 
-	for(j = 0; j < fac_comp*fac_comp; j++)
-	{
-		calculate_avg_matrix(*(avg_matrix)+3*j, *(eval_mat+j), cant_expertos);
-	}
+//	for(j = 0; j < fac_comp*fac_comp; j++)
+//	{
+//		calculate_avg_matrix(*(avg_matrix)+3*j, *(eval_mat+j), cant_expertos);
+//	}
 
 // matriz_inversa
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
 	printf("\n");
-	despliega_mat_2d(avg_matrix, fac_comp, fac_comp*3);
+//	despliega_mat_2d(avg_matrix, fac_comp, fac_comp*3);
 
 	return 0;
 }
