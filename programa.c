@@ -98,7 +98,7 @@ int main()
 	
 	palabras = (char*)malloc( fac_comp*15 * sizeof(char) );
 	eval_mat = crea_mat_2d(fac_comp*fac_comp, cant_expertos * 3);
-	avg_matrix = crea_mat_2d(fac_comp, fac_comp*FUZZY_NUMBER);
+	avg_matrix = crea_mat_2d(fac_comp*fac_comp, FUZZY_NUMBER);
 
 	for (i = 0; i < fac_comp * 15; i++)
 	{ 
@@ -133,16 +133,16 @@ int main()
 			matriz_inversa( *(eval_mat + fac_comp*k + j), *(eval_mat + fac_comp*j +k), FUZZY_NUMBER, cant_expertos);
 		}
 	}
-/*
+
 	for(j = 0; j < fac_comp*fac_comp; j++)
 	{
-		calculate_avg_matrix(*(avg_matrix)+3*j, *(eval_mat+j), cant_expertos);
+		calculate_avg_matrix(*(avg_matrix + j), *(eval_mat+j), cant_expertos);
 	}
-*/
+
 // matriz_inversa
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
 	printf("\n");
-//	despliega_mat_2d(avg_matrix, fac_comp, fac_comp*3);
+	despliega_mat_2d(avg_matrix, fac_comp*fac_comp, FUZZY_NUMBER);
 
 	return 0;
 }
