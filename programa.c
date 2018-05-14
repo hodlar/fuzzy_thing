@@ -75,7 +75,7 @@ void calculate_avg_matrix(double *resultado, double *matrix, int expertos)
 		for(k = 0; k < expertos; k++)
 		{
 			tmp += *(matrix + FUZZY_NUMBER*k + j);
-			printf("valor=%lf dir=%x\n", *(matrix + FUZZY_NUMBER*k + j), (matrix + FUZZY_NUMBER*k + j));
+	//		printf("valor=%lf dir=%x\n", *(matrix + FUZZY_NUMBER*k + j), (matrix + FUZZY_NUMBER*k + j));
 		}
 		*(resultado + j) = tmp/expertos;
 	}
