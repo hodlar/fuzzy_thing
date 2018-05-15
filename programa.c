@@ -31,6 +31,26 @@ void despliega_mat_2d(double **mat, int y, int x)
 	}
 }
 
+void despliega_short_mat_1d(short *arr, int size)
+{
+	int k;
+	for(k = 0; k < size; k++)
+	{
+		printf("%hi ", *(arr + k) );
+	}
+	printf("\n");
+}
+
+void despliega_short_mat_2d(short **mat, int y, int x)
+{
+	int j;
+	printf("\n");
+	for(j = 0; j < y; j++)
+	{
+		despliega_short_mat_1d( *(mat + j), x);
+	}
+}
+
 void lee_arr(double *arr, int size)
 {
 	int i;
@@ -48,6 +68,21 @@ double** crea_mat_2d(int y, int x)
 	for(i = 0; i < y; i++)
 	{ 
 		*(mat + i) = (double*)malloc(x * sizeof(double)); 
+	}
+
+	return mat;
+}
+
+short** crea_short_mat_2d(int y, int x)
+{
+	short **mat;
+	int i, j, k;
+	
+	mat = (short**)malloc(y * sizeof(short*));
+
+	for(i = 0; i < y; i++)
+	{ 
+		*(mat + i) = (short*)malloc(x * sizeof(short)); 
 	}
 
 	return mat;
@@ -152,7 +187,7 @@ void calculate_s_exclamation(double **s_exclamation, double **s, double *inverse
 	}
 }
 
-void generate_logic_matrix(int **results, double **s_exclamation, short fac_comp)
+void generate_logic_matrix(short **results, double **s_exclamation, int fac_comp)
 {
 	int i, j, k1, k2, cont;
 	for(i = 0; i < 3; i++)
@@ -162,12 +197,12 @@ void generate_logic_matrix(int **results, double **s_exclamation, short fac_comp
 		{
 			for(k1 = 0; k1 < j; k1++)
 			{
-				*(*(results+cont)+i) = *(*(s_exclamation ) ) > *(*(s_exclamation ) );
+				*(*(results+cont)+i) = *(*(s_exclamation+j)+i) > *(*(s_exclamation+k1)+i);
 				cont++;
 			}
 			for(k2 = j+1; k2 < fac_comp; k2++)
 			{
-				*(*(results+cont)+i) = *(*(s_exclamation ) ) > *(*(s_exclamation ) );
+				*(*(results+cont)+i) = *(*(s_exclamation+j)+i) > *(*(s_exclamation+k2)+i);
 				cont++;
 			}
 		}
@@ -177,6 +212,7 @@ void generate_logic_matrix(int **results, double **s_exclamation, short fac_comp
 int main()
 {
 	int cant_expertos, i, fac_comp, fuzzy_number, tmp, j, k;
+	short **desition_matrix;
 	char *palabras;
 	//factores de comparacion max 9
 	//numero de expertos infinito	
@@ -196,6 +232,7 @@ int main()
 	sumatoria = (double*)malloc( fac_comp*3 * sizeof(double) );
 	triangular = crea_mat_2d(fac_comp, 3);
 	s_exclamation = crea_mat_2d(fac_comp, 3);
+	desition_matrix = crea_short_mat_2d(fac_comp*(fac_comp-1),3);
 
 	for (i = 0; i < fac_comp * 15; i++)
 	{ 
@@ -233,6 +270,8 @@ int main()
 	sum_column(col_sum,triangular,fac_comp);
 	invert_sc(inv_sc,col_sum);
 	calculate_s_exclamation(s_exclamation, triangular, inv_sc, fac_comp);
+	generate_logic_matrix(desition_matrix, s_exclamation, fac_comp);
+
 
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
 	despliega_mat_2d(avg_matrix, fac_comp*fac_comp, FUZZY_NUMBER);
@@ -246,5 +285,7 @@ int main()
 	despliega_mat_1d(inv_sc,FUZZY_NUMBER);
 	printf("\nS!");
 	despliega_mat_2d(s_exclamation, fac_comp, FUZZY_NUMBER);
+	printf("\ndesition_matrix");
+	despliega_short_mat_2d(desition_matrix, fac_comp*(fac_comp-1), FUZZY_NUMBER);
 	return 0;
 }
