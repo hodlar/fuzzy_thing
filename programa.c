@@ -131,6 +131,27 @@ void sum_column(double *resultado, double **matrix, int col_size)
 	}
 }
 
+void invert_sc(double *inv_sc, double *sc)
+{
+	int i;
+	for( i = 0; i < FUZZY_NUMBER; i++)
+	{
+		inv_sc[i] = 1/sc[i];
+	}
+}
+
+void calculate_s_exclamation(double **s_exclamation, double **s, double *inverse_sc, int fac_comp)
+{
+	int i, j, k;
+	for( i = 0; i < fac_comp; i++)
+	{
+		for( j = 0; j < 3; j++)
+		{
+			*(*(s_exclamation + i ) + j )  = *(*(s + i) + j) * *(inverse_sc + (2 - j));
+		}
+	}
+}
+
 int main()
 {
 	int cant_expertos, i, fac_comp, fuzzy_number, tmp, j, k;
@@ -138,7 +159,8 @@ int main()
 	//factores de comparacion max 9
 	//numero de expertos infinito	
 	//generar matrix promedio de cada columna
-	double **eval_mat, **avg_matrix, *sumatoria, **triangular, col_sum[3];
+	double **eval_mat, **avg_matrix, *sumatoria, **triangular, **s_exclamation;
+	double col_sum[3], inv_sc[3];
 
 
 	printf("cantidad de expertos? ");
@@ -151,7 +173,7 @@ int main()
 	avg_matrix = crea_mat_2d(fac_comp*fac_comp, FUZZY_NUMBER);
 	sumatoria = (double*)malloc( fac_comp*3 * sizeof(double) );
 	triangular = crea_mat_2d(fac_comp, 3);
-
+	s_exclamation = crea_mat_2d(fac_comp, 3);
 
 	for (i = 0; i < fac_comp * 15; i++)
 	{ 
@@ -168,14 +190,6 @@ int main()
 		printf("nombre de factor de comparacion #%i ", i + 1);
 		scanf("%s", (palabras + 15*i) );
 	}
-
-	/*
-	for(i = 0; i < 15 * fac_comp; i++)
-	{ 
-		printf("%c", *(palabras + i)) ; 
-	}
-	*/
-//24
 	tmp = (fac_comp * (fac_comp - 1)) / 2;
 	for(j = 0; j < fac_comp; j++)
 	{
@@ -195,6 +209,8 @@ int main()
 	calculate_sum(sumatoria, avg_matrix, fac_comp);
 	sum_triangular(triangular, avg_matrix, fac_comp);
 	sum_column(col_sum,triangular,fac_comp);
+	invert_sc(inv_sc,col_sum);
+	calculate_s_exclamation(s_exclamation, triangular, inv_sc, fac_comp);
 
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
 	despliega_mat_2d(avg_matrix, fac_comp*fac_comp, FUZZY_NUMBER);
@@ -204,5 +220,9 @@ int main()
 	despliega_mat_2d(triangular, fac_comp, FUZZY_NUMBER);
 	printf("\nSC\n");
 	despliega_mat_1d(col_sum,FUZZY_NUMBER);
+	printf("\n1/SC\n");
+	despliega_mat_1d(inv_sc,FUZZY_NUMBER);
+	printf("\nS!");
+	despliega_mat_2d(s_exclamation, fac_comp, FUZZY_NUMBER);
 	return 0;
 }
