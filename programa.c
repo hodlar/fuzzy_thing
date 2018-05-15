@@ -118,6 +118,19 @@ void sum_triangular(double **resultado, double **matrix, int fac_comp)
 	}
 }
 
+void sum_column(double *resultado, double **matrix, int col_size)
+{
+	int i, j, k;
+	for(i = 0; i < FUZZY_NUMBER; i++)
+	{
+		*(resultado + i) = 0;
+		for(k = 0; k < col_size; k++)
+		{
+			*(resultado + i) += *(*(matrix + k) + i);
+		}
+	}
+}
+
 int main()
 {
 	int cant_expertos, i, fac_comp, fuzzy_number, tmp, j, k;
@@ -125,7 +138,7 @@ int main()
 	//factores de comparacion max 9
 	//numero de expertos infinito	
 	//generar matrix promedio de cada columna
-	double **eval_mat, **avg_matrix, *sumatoria, **triangular;
+	double **eval_mat, **avg_matrix, *sumatoria, **triangular, col_sum[3];
 
 
 	printf("cantidad de expertos? ");
@@ -181,6 +194,7 @@ int main()
 
 	calculate_sum(sumatoria, avg_matrix, fac_comp);
 	sum_triangular(triangular, avg_matrix, fac_comp);
+	sum_column(col_sum,triangular,fac_comp);
 
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
 	despliega_mat_2d(avg_matrix, fac_comp*fac_comp, FUZZY_NUMBER);
@@ -188,5 +202,7 @@ int main()
 	despliega_mat_1d(sumatoria,fac_comp*3);
 	printf("\nSuma de numeros triangulares");
 	despliega_mat_2d(triangular, fac_comp, FUZZY_NUMBER);
+	printf("\nSC\n");
+	despliega_mat_1d(col_sum,FUZZY_NUMBER);
 	return 0;
 }
