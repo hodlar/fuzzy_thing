@@ -112,7 +112,7 @@ void sum_triangular(double **resultado, double **matrix, int fac_comp)
 			for(k = 0; k < fac_comp; k++)
 			{
 				*(*(resultado +  i) + j) += *(*(matrix + k + i*fac_comp) + j);
-				printf("y=%i x=%i \n", i, k*fac_comp+j);
+//				printf("y=%i x=%i \n", i, k*fac_comp+j);
 			}
 		}
 	}
@@ -148,6 +148,28 @@ void calculate_s_exclamation(double **s_exclamation, double **s, double *inverse
 		for( j = 0; j < 3; j++)
 		{
 			*(*(s_exclamation + i ) + j )  = *(*(s + i) + j) * *(inverse_sc + (2 - j));
+		}
+	}
+}
+
+void generate_logic_matrix(int **results, double **s_exclamation, short fac_comp)
+{
+	int i, j, k1, k2, cont;
+	for(i = 0; i < 3; i++)
+	{
+		cont = 0;
+		for(j = 0; j < fac_comp; j++)
+		{
+			for(k1 = 0; k1 < j; k1++)
+			{
+				*(*(results+cont)+i) = *(*(s_exclamation ) ) > *(*(s_exclamation ) );
+				cont++;
+			}
+			for(k2 = j+1; k2 < fac_comp; k2++)
+			{
+				*(*(results+cont)+i) = *(*(s_exclamation ) ) > *(*(s_exclamation ) );
+				cont++;
+			}
 		}
 	}
 }
