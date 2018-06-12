@@ -250,6 +250,19 @@ void logic_test(double *pesos, double **s_exclamation, int s_size)
 	}
 }
 
+void calcula_final(double *resultados, double *pesos, int size)
+{
+	int j, k;
+	double sum = 0;
+	for(j = 0; j < size; j++)
+	{
+		sum += *(resultados + j);
+	}
+	for(j = 0; j < size; j++)
+	{
+		*(resultados + j) = *(pesos + j)/sum;
+	}
+}
 
 int main()
 {
@@ -260,7 +273,7 @@ int main()
 	//numero de expertos infinito	
 	//generar matrix promedio de cada columna
 	double **eval_mat, **avg_matrix, *sumatoria, **triangular, **s_exclamation, pesos[9];
-	double col_sum[3], inv_sc[3];
+	double col_sum[3], inv_sc[3], resultado_final[9];
 
 
 	printf("cantidad de expertos? ");
@@ -313,6 +326,8 @@ int main()
 	invert_sc(inv_sc,col_sum);
 	calculate_s_exclamation(s_exclamation, triangular, inv_sc, fac_comp);
 	generate_logic_matrix(desition_matrix, s_exclamation, fac_comp);
+	logic_test(pesos, s_exclamation, fac_comp);
+	calcula_final(resultado_final, pesos, fac_comp);
 
 
 	despliega_mat_2d( eval_mat, fac_comp*fac_comp, cant_expertos*3);
@@ -329,8 +344,9 @@ int main()
 	despliega_mat_2d(s_exclamation, fac_comp, FUZZY_NUMBER);
 	printf("\ndesition_matrix");
 	despliega_short_mat_2d(desition_matrix, fac_comp*(fac_comp-1), FUZZY_NUMBER);
-	logic_test(pesos, s_exclamation, fac_comp);
-	printf("\npesos");
+	printf("\npesos\n");
 	despliega_mat_1d(pesos,fac_comp);
+	printf("\nResultado final\n");
+	despliega_mat_1d(resultado_final,fac_comp);
 	return 0;
 }
