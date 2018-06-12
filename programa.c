@@ -209,6 +209,17 @@ void generate_logic_matrix(short **results, double **s_exclamation, int fac_comp
 	}
 }
 
+/*
+void logic_test(short pesos, double **s_exclamation, int s_size)
+{
+	int i, j, k;
+	for( i = 0; i < size; i++)
+	
+	}
+
+}
+*/
+
 int main()
 {
 	int cant_expertos, i, fac_comp, fuzzy_number, tmp, j, k;
