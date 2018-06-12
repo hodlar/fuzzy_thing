@@ -229,9 +229,10 @@ void logic_test(double *pesos, double **s_exclamation, int s_size)
 				(  (*(*(s_exclamation+j)+1) - *(*(s_exclamation+j)+2) ) - 
 					( *(*(s_exclamation+k1)+1) - *(*(s_exclamation+k1)+0) ) );
 				}
+				if (tmp2 < tmp1)
+				{ tmp1 = tmp2; }
 		}
-		if (tmp2 < tmp1)
-		{ tmp1 = tmp2; }
+		
 		for(k2 = j+1; k2 < s_size; k2++)
 		{
 				if(	*(*(s_exclamation+j)+1) >= *(*(s_exclamation+k2)+1) )
@@ -243,9 +244,9 @@ void logic_test(double *pesos, double **s_exclamation, int s_size)
 				(  (*(*(s_exclamation+j)+1) - *(*(s_exclamation+j)+2) ) - 
 					( *(*(s_exclamation+k2)+1) - *(*(s_exclamation+k2)+0) ) );
 				}
+				if(tmp2 < tmp1)
+				{ tmp1 = tmp2; }
 		}
-		if(tmp2 < tmp1)
-		{ tmp1 = tmp2; }
 		*(pesos + j) = tmp1;
 	}
 }
