@@ -209,16 +209,47 @@ void generate_logic_matrix(short **results, double **s_exclamation, int fac_comp
 	}
 }
 
-/*
-void logic_test(short pesos, double **s_exclamation, int s_size)
-{
-	int i, j, k;
-	for( i = 0; i < size; i++)
-	
-	}
 
+void logic_test(double *pesos, double **s_exclamation, int s_size)
+{
+	int j, k1, k2;
+	double tmp1, tmp2;
+	for( j = 0; j < s_size; j++)
+	{
+		tmp1 = 1;
+		tmp2 = 1;
+		for(k1 = 0; k1 < j; k1++)
+		{
+				if(	*(*(s_exclamation+j)+1) >= *(*(s_exclamation+k1)+1) )
+				{ tmp2 = 1; }
+				else if( *(*(s_exclamation+k1)+0) >= *(*(s_exclamation+j)+2) )
+				{ tmp2 = 0; }
+				else
+				{  tmp2 = (*(*(s_exclamation+k1)) - *(*(s_exclamation+j)+2)) / 
+				(  (*(*(s_exclamation+j)+1) - *(*(s_exclamation+j)+2) ) - 
+					( *(*(s_exclamation+k1)+1) - *(*(s_exclamation+k1)+0) ) );
+				}
+		}
+		if (tmp2 < tmp1)
+		{ tmp1 = tmp2; }
+		for(k2 = j+1; k2 < s_size; k2++)
+		{
+				if(	*(*(s_exclamation+j)+1) >= *(*(s_exclamation+k2)+1) )
+				{ tmp2 = 1; }
+				else if( *(*(s_exclamation+k2)+0) >= *(*(s_exclamation+j)+2) )
+				{ tmp2 = 0; }
+				else
+				{  tmp2 = (*(*(s_exclamation+k2)) - *(*(s_exclamation+j)+2)) / 
+				(  (*(*(s_exclamation+j)+1) - *(*(s_exclamation+j)+2) ) - 
+					( *(*(s_exclamation+k2)+1) - *(*(s_exclamation+k2)+0) ) );
+				}
+		}
+		if(tmp2 < tmp1)
+		{ tmp1 = tmp2; }
+		*(pesos + j) = tmp1;
+	}
 }
-*/
+
 
 int main()
 {
@@ -228,7 +259,7 @@ int main()
 	//factores de comparacion max 9
 	//numero de expertos infinito	
 	//generar matrix promedio de cada columna
-	double **eval_mat, **avg_matrix, *sumatoria, **triangular, **s_exclamation;
+	double **eval_mat, **avg_matrix, *sumatoria, **triangular, **s_exclamation, pesos[9];
 	double col_sum[3], inv_sc[3];
 
 
@@ -298,5 +329,8 @@ int main()
 	despliega_mat_2d(s_exclamation, fac_comp, FUZZY_NUMBER);
 	printf("\ndesition_matrix");
 	despliega_short_mat_2d(desition_matrix, fac_comp*(fac_comp-1), FUZZY_NUMBER);
+	logic_test(pesos, s_exclamation, fac_comp);
+	printf("\npesos");
+	despliega_mat_1d(pesos,fac_comp);
 	return 0;
 }
