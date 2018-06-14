@@ -257,12 +257,13 @@ void calcula_final(double *resultados, double *pesos, int size)
 	double sum = 0;
 	for(j = 0; j < size; j++)
 	{
-		sum += *(resultados + j);
+		sum += *(pesos + j);
 	}
 	for(j = 0; j < size; j++)
 	{
 		*(resultados + j) = *(pesos + j)/sum;
 	}
+	printf("\nSUMA%lf\n", sum);
 }
 
 int main()
@@ -349,5 +350,10 @@ int main()
 	despliega_mat_1d(pesos,fac_comp);
 	printf("\nResultado final\n");
 	despliega_mat_1d(resultado_final,fac_comp);
+
+	for(k = 0; k < fac_comp; k++)
+	{
+		printf("%lf, %s \n", *(resultado_final + k), palabras + 15*k);
+	}
 	return 0;
 }
