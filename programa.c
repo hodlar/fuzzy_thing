@@ -4,11 +4,15 @@
 
 #define FUZZY_NUMBER 3
 
-void init_arr(double *arr, int size, double value)
+void init_arr(double *arr, int size, double val1, double val2, double val3)
 {
 	int i;
 	for(i = 0; i < size; i++)
-	{ *(arr+i) = value; }
+	{ 
+		*(arr + i*3) = val1; 
+		*(arr + i*3 + 1) = val2;
+		*(arr + i*3 + 2) = val3;
+	}
 }
 
 void despliega_mat_1d(double *arr, int size)
@@ -286,6 +290,7 @@ void calcula_final(double *resultados, double *pesos, int size)
 int main()
 {
 	int cant_expertos, i, fac_comp, fuzzy_number, tmp, j, k;
+	double val1, val2, val3;
 	short **desition_matrix;
 	char *palabras;
 	//factores de comparacion max 9
@@ -315,19 +320,21 @@ int main()
 
 	for(i = 0; i < fac_comp; i++)
 	{
-		init_arr( *(eval_mat + i + fac_comp*i ), cant_expertos * 3, 1);
-	}
-
-	for(i = 0; i < fac_comp; i++)
-	{
 		printf("nombre de factor de comparacion #%i ", i + 1);
 		scanf("%s", (palabras + 15*i) );
 	}
 
 	tmp = (fac_comp * (fac_comp - 1)) / 2;	
 
-	printf("introduce los valores triangulares de la matriz igualdad");
+	printf("introduce los valores triangulares de la matriz igualdad ");
+	scanf("%lf", &val1);
+	scanf("%lf", &val2);
+	scanf("%lf", &val3);
 
+	for(i = 0; i < fac_comp; i++)
+	{
+		init_arr( *(eval_mat + i + fac_comp*i ), cant_expertos, val1, val2, val3);
+	}
 
 	for(j = 0; j < fac_comp; j++)
 	{
