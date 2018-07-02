@@ -103,17 +103,34 @@ void matriz_inversa(double *resultado, double *matriz, int xsize, int ysize)
 void calculate_avg_matrix(double *resultado, double *matrix, int expertos)
 {
 	int i, j, k;
-	double tmp;
-	double expertos_doub;
+	double tmp = 1;
+	double expertos_doub, aux[90];
+	expertos_doub = (double) expertos;
+
+/*	
+	for(j = 0; j < expertos; j++)
+	{
+		aux[j] = *(matrix + 3*j) + 4 * *(matrix + 1 + 3*j) + *(matrix + 2 + 3*j);
+		aux[j] /= 6;
+	}
+
+	for(j =  0; j < expertos; j++)
+	{
+		tmp *= aux[j];
+	}
+	*resultado = pow(tmp, 1/expertos_doub);
+*/
+	
 	for(j = 0; j < FUZZY_NUMBER; j++)
 	{
-		tmp = 0;
+		tmp = 1;
 		for(k = 0; k < expertos; k++)
 		{
-			tmp += *(matrix + FUZZY_NUMBER*k + j);
-	//		printf("valor=%lf dir=%x\n", *(matrix + FUZZY_NUMBER*k + j), (matrix + FUZZY_NUMBER*k + j));
+			tmp *=  *(matrix + FUZZY_NUMBER*k + j);
+//			printf("valor=%lf tmp=%lf dir=%x\n ", *(matrix + FUZZY_NUMBER*k + j), tmp, (matrix + FUZZY_NUMBER*k + j));
 		}
-		*(resultado + j) = tmp/expertos;
+		*(resultado + j) = pow(tmp,1/expertos_doub);
+//		*(resultado + j) = tmp/expertos;
 	}
 }
 
@@ -306,7 +323,12 @@ int main()
 		printf("nombre de factor de comparacion #%i ", i + 1);
 		scanf("%s", (palabras + 15*i) );
 	}
-	tmp = (fac_comp * (fac_comp - 1)) / 2;
+
+	tmp = (fac_comp * (fac_comp - 1)) / 2;	
+
+	printf("introduce los valores triangulares de la matriz igualdad");
+
+
 	for(j = 0; j < fac_comp; j++)
 	{
 		for(k = j + 1; k < fac_comp; k++)
