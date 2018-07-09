@@ -384,5 +384,7 @@ int main()
 	{
 		printf("%lf, %s \n", *(resultado_final + k), palabras + 15*k);
 	}
+	
+	scanf("%i", &cant_expertos);
 	return 0;
 }
